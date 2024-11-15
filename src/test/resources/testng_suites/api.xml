@@ -15,7 +15,7 @@
 
 	<test name="User API tests">
 		<classes>
-			<class name="com.zebrunner.carina.demo.APISampleTest" />
+			<class name="com.zebrunner.carina.demo.APIEntityTest" />
 		</classes>
 	</test>
 

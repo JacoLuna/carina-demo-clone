@@ -13,24 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *******************************************************************************/
-package com.zebrunner.carina.demo.api;
+package com.zebrunner.carina.demo.api.entity;
 
 import com.zebrunner.carina.api.AbstractApiMethodV2;
 import com.zebrunner.carina.api.annotation.Endpoint;
-import com.zebrunner.carina.api.annotation.RequestTemplatePath;
 import com.zebrunner.carina.api.annotation.ResponseTemplatePath;
 import com.zebrunner.carina.api.annotation.SuccessfulHttpStatus;
 import com.zebrunner.carina.api.http.HttpMethodType;
 import com.zebrunner.carina.api.http.HttpResponseStatusType;
 import com.zebrunner.carina.utils.config.Configuration;
 
-@Endpoint(url = "${base_url}/users/1", methodType = HttpMethodType.DELETE)
-@RequestTemplatePath(path = "api/users/_delete/rq.json")
-@ResponseTemplatePath(path = "api/users/_delete/rs.json")
+@Endpoint(url = "${base_url}/posts", methodType = HttpMethodType.GET)
+@ResponseTemplatePath(path = "api/entities/_get/rs.json")
+//@SuccessfulHttpStatus(status = HttpResponseStatusType.OK_200)
 @SuccessfulHttpStatus(status = HttpResponseStatusType.OK_200)
-public class DeleteUserMethod extends AbstractApiMethodV2 {
+public class GetEntityMethods extends AbstractApiMethodV2 {
 
-    public DeleteUserMethod() {
+    public GetEntityMethods() {
         replaceUrlPlaceholder("base_url", Configuration.getRequired("api_url"));
     }
 }

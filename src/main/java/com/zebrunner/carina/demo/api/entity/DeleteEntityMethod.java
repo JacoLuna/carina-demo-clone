@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *******************************************************************************/
-package com.zebrunner.carina.demo.api;
+package com.zebrunner.carina.demo.api.entity;
 
 import com.zebrunner.carina.api.AbstractApiMethodV2;
 import com.zebrunner.carina.api.annotation.Endpoint;
@@ -24,14 +24,13 @@ import com.zebrunner.carina.api.http.HttpMethodType;
 import com.zebrunner.carina.api.http.HttpResponseStatusType;
 import com.zebrunner.carina.utils.config.Configuration;
 
-@Endpoint(url = "${base_url}/users", methodType = HttpMethodType.POST)
-@RequestTemplatePath(path = "api/users/_post/rq.json")
-@ResponseTemplatePath(path = "api/users/_post/rs.json")
-@SuccessfulHttpStatus(status = HttpResponseStatusType.CREATED_201)
-public class PostUserMethod extends AbstractApiMethodV2 {
+@Endpoint(url = "${base_url}/posts/1", methodType = HttpMethodType.DELETE)
+@RequestTemplatePath(path = "api/entities/_delete/rq.json")
+@ResponseTemplatePath(path = "api/entities/_delete/rs.json")
+@SuccessfulHttpStatus(status = HttpResponseStatusType.OK_200)
+public class DeleteEntityMethod extends AbstractApiMethodV2 {
 
-    public PostUserMethod() {
-        super("api/users/_post/rq.json", "api/users/_post/rs.json", "api/users/user.properties");
+    public DeleteEntityMethod() {
         replaceUrlPlaceholder("base_url", Configuration.getRequired("api_url"));
     }
 }

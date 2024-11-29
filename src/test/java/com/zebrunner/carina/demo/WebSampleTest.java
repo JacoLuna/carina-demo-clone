@@ -15,6 +15,8 @@
  *******************************************************************************/
 package com.zebrunner.carina.demo;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.List;
 
 import com.zebrunner.carina.demo.gui.components.ModelItem;
@@ -22,6 +24,9 @@ import com.zebrunner.carina.demo.gui.components.NewsItem;
 import com.zebrunner.carina.demo.gui.components.compare.ModelSpecs;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
@@ -142,5 +147,4 @@ public class WebSampleTest implements IAbstractTest {
 
         softAssert.assertAll();
     }
-
 }

@@ -26,7 +26,7 @@ public class APIEntityTest implements IAbstractTest {
     @Test()
     @MethodOwner(owner = "jaco")
     public void testCreateEntity() throws Exception {
-        LOGGER.info("test");
+        LOGGER.info("POST test");
         setCases("4555,54545");
         PostEntityMethod api = new PostEntityMethod();
         api.setProperties("api/entities/_post/postEntity.properties");
@@ -46,6 +46,7 @@ public class APIEntityTest implements IAbstractTest {
     @Test()
     @MethodOwner(owner = "jaco")
     public void testGetEntities() {
+        LOGGER.info("GET test");
         GetEntityMethods getEntityMethods = new GetEntityMethods();
         getEntityMethods.callAPIExpectSuccess();
 //        getEntityMethods.validateResponse(JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
@@ -56,8 +57,9 @@ public class APIEntityTest implements IAbstractTest {
     @MethodOwner(owner = "jaco")
     @TestPriority(Priority.P1)
     public void testDeleteEntities() {
+        LOGGER.info("DELETE test");
         DeleteEntityMethod deleteEntityMethod = new DeleteEntityMethod();
-        deleteEntityMethod.setProperties("api/entities/entity.properties");
+        deleteEntityMethod.setProperties("api/entities/_delete/deleteEntity.properties");
         deleteEntityMethod.callAPIExpectSuccess();
         deleteEntityMethod.validateResponse();
     }
@@ -65,8 +67,7 @@ public class APIEntityTest implements IAbstractTest {
     @Test()
     @MethodOwner(owner = "jaco")
     public void testUpdateEntity() throws Exception {
-        LOGGER.info("test");
-
+        LOGGER.info("PUT test");
         PutEntityMethod api = new PutEntityMethod();
         api.setProperties("api/entities/_put/putEntity.properties");
 

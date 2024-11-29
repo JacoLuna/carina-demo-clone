@@ -31,7 +31,7 @@ import com.zebrunner.carina.utils.config.Configuration;
 public class PostEntityMethod extends AbstractApiMethodV2 {
 
     public PostEntityMethod() {
-        super("api/entities/_post/rq.json", "api/entities/_post/rs.json", "api/entities/entity.properties");
+        super("api/entities/_post/rq.json", "api/entities/_post/rs.json", "api/entities/_post/postEntity.properties");
         replaceUrlPlaceholder("base_url", Configuration.getRequired("api_url"));
     }
 }

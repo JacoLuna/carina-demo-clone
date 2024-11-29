@@ -6,9 +6,6 @@ import com.zebrunner.carina.demo.gui.pages.desktop.sauce.SauceCart;
 import com.zebrunner.carina.demo.gui.pages.desktop.sauce.SauceDemoLogIn;
 import com.zebrunner.carina.demo.gui.pages.desktop.sauce.SauceInventory;
 import com.zebrunner.carina.demo.gui.pages.desktop.sauce.entities.Item;
-import com.zebrunner.carina.demo.gui.pages.desktop.tiendaMia.TiendaMiaBase;
-import com.zebrunner.carina.demo.gui.pages.desktop.tiendaMia.TiendaMiaCart;
-import com.zebrunner.carina.demo.gui.pages.desktop.tiendaMia.TiendaMiaCatalog;
 import org.openqa.selenium.WebDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,7 +23,8 @@ import java.util.List;
  * Check successful login, login with incorrect data, logout. •
  * Check product card (Select an element on the product page, open it and check that the data is the same on both pages) •
  * Check adding products to the cart (Add two different products to the cart, check that both are in the cart, check the total amount) •
- * Check removing products from the cart (Add several products to the cart, remove products, check that they are missing and that the total amount of products in the cart has changed and that it is correct)
+ * Check removing products from the cart (Add several products to the cart, remove products, check that they are missing and that the
+ * total amount of products in the cart has changed and that it is correct) •
  * Check that any of the pages can be scrolled.
  * Checking the Order Filling form (Checking that all fields are present, that they are filled in with an error and that the order has not been created)
  * Checking sorting by all available options.
@@ -44,25 +42,6 @@ public class WebTestLuna implements IAbstractTest {
 
     @Test()
     @MethodOwner(owner = "Luna")
-    public void sampleTest(){
-        WebDriver driver = getDriver(); //return drivers, which are instance of our browser
-//        driver.navigate().to("url");
-//        Assert.assertEquals(driver.getCurrentUrl(), "url", "can url page");
-
-        driver.navigate().to("https://www.compragamer.com/");
-        Assert.assertEquals(driver.getCurrentUrl(), "https://www.compragamer.com/", "compraGamer page");
-
-//        driver.findElement(By.id("elementID")).click();
-//        //xpath is less common but more powerful
-    }
-
-    //POM - Page object model
-
-    //Asserts should be do here
-    //but actions that are repeated in in the same page should be done on the page java class, for example OurHomePage
-
-    @Test()
-    @MethodOwner(owner = "Luna")
     public void testSuccessfulLogin(){
         WebDriver driver = getDriver();
 
@@ -71,7 +50,7 @@ public class WebTestLuna implements IAbstractTest {
         logIn.open();
         logIn.signIn("standard_user", "secret_sauce");
 
-        Assert.assertEquals(driver.getCurrentUrl(),"https://www.saucedemo.com/inventory.html","Inventory page");
+        Assert.assertEquals(driver.getCurrentUrl(),"https://www.saucedemo.com/inventory.html","Inventory page not loaded");
     }
 
     @Test()
@@ -84,7 +63,7 @@ public class WebTestLuna implements IAbstractTest {
         logIn.open();
         logIn.signIn("standard_user", "secret_sauc");
 
-        Assert.assertEquals(driver.getCurrentUrl(),"https://www.saucedemo.com/","LogIn Page");
+        Assert.assertEquals(driver.getCurrentUrl(),"https://www.saucedemo.com/","LogIn Page not loaded");
     }
 
     @Test()
@@ -100,7 +79,7 @@ public class WebTestLuna implements IAbstractTest {
         SauceInventory inventory = new SauceInventory(driver);
         inventory.logOut();
 
-        Assert.assertEquals(driver.getCurrentUrl(),"https://www.saucedemo.com/","LogIn Page");
+        Assert.assertEquals(driver.getCurrentUrl(),"https://www.saucedemo.com/","LogIn Page not loaded");
     }
 
     @Test()
@@ -120,7 +99,7 @@ public class WebTestLuna implements IAbstractTest {
 
         SauceCart cart = new SauceCart(driver);
 
-        Assert.assertTrue(cart.getItemsOnCart().contains(item));
+        Assert.assertTrue(cart.getItemsOnCart().contains(item), item.getName() + " is not on the cart");
     }
 
     @Test()
@@ -143,9 +122,54 @@ public class WebTestLuna implements IAbstractTest {
         SauceCart cart = new SauceCart(driver);
         List<Item> itemsOnCart = cart.getItemsOnCart();
 
-        softAssert.assertTrue(cart.getItemsOnCart().contains(firstItem));
-        softAssert.assertTrue(cart.getItemsOnCart().contains(secondItem));
+        softAssert.assertTrue(cart.getItemsOnCart().contains(firstItem), firstItem.getName() + " is not on the cart");
+        softAssert.assertTrue(cart.getItemsOnCart().contains(secondItem), secondItem.getName() + " is not on the cart");
         softAssert.assertEquals(itemsOnCart.size(), 2);
         softAssert.assertAll();
+    }
+
+    @Test()
+    @MethodOwner(owner = "Luna")
+    public void testRemovingProductsFromCart(){
+        WebDriver driver = getDriver();
+        SauceDemoLogIn logIn = new SauceDemoLogIn(driver);
+
+        logIn.open();
+        logIn.signIn("standard_user", "secret_sauce");
+
+        SauceInventory inventory = new SauceInventory(driver);
+        Item firstItem = inventory.getItem(0);
+        Item secondItem = inventory.getItem(1);
+        Item thirdItem = inventory.getItem(2);
+        inventory.addProductToCard(firstItem);
+        inventory.addProductToCard(secondItem);
+        inventory.addProductToCard(thirdItem);
+
+        inventory.goToCart();
+
+        SauceCart cart = new SauceCart(driver);
+
+        softAssert.assertTrue(cart.getItemsOnCart().contains(firstItem),  firstItem.getName() + " is not on the cart");
+        softAssert.assertTrue(cart.getItemsOnCart().contains(secondItem), secondItem.getName() + " is not  on the cart");
+        softAssert.assertTrue(cart.getItemsOnCart().contains(thirdItem),  thirdItem.getName() + " is not  on the cart");
+        softAssert.assertEquals(cart.getItemsOnCart().size(), 3, "not all the products are on the cart");
+
+        cart.removeItemFromCart(secondItem);
+        softAssert.assertFalse(cart.getItemsOnCart().contains(secondItem), secondItem.getName() + " has not been removed from the cart");
+        softAssert.assertEquals(cart.getItemsOnCart().size(), 2, "not all the remaining product are still on the cart");
+        softAssert.assertAll();
+    }
+
+    @Test()
+    @MethodOwner(owner = "Luna")
+    public void testScrollPage(){
+        WebDriver driver = getDriver();
+        SauceDemoLogIn logIn = new SauceDemoLogIn(driver);
+
+        logIn.open();
+        logIn.signIn("standard_user", "secret_sauce");
+
+        SauceInventory inventory = new SauceInventory(driver);
+        Assert.assertTrue(inventory.scroll() != 0, "The page has not been scrolled");
     }
 }

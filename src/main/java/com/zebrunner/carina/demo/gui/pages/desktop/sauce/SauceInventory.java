@@ -2,7 +2,6 @@ package com.zebrunner.carina.demo.gui.pages.desktop.sauce;
 
 import com.zebrunner.carina.demo.gui.pages.desktop.SauceBase;
 import com.zebrunner.carina.demo.gui.pages.desktop.sauce.entities.Item;
-import com.zebrunner.carina.demo.gui.pages.desktop.tiendaMia.TiendaMiaProduct;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
 import com.zebrunner.carina.webdriver.gui.AbstractPage;
 import org.openqa.selenium.By;
@@ -21,8 +20,6 @@ public class SauceInventory extends SauceBase {
     public SauceInventory(WebDriver driver){
         super(driver);
     }
-
-
 
     public void addProductToCard(Item item){
         List<WebElement> items = inventoryList.findElements(By.cssSelector("div.inventory_item"));

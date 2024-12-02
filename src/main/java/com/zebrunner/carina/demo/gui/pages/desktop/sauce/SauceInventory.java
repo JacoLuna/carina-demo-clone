@@ -1,9 +1,7 @@
 package com.zebrunner.carina.demo.gui.pages.desktop.sauce;
 
-import com.zebrunner.carina.demo.gui.pages.desktop.SauceBase;
 import com.zebrunner.carina.demo.gui.pages.desktop.sauce.entities.Item;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
-import com.zebrunner.carina.webdriver.gui.AbstractPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;

@@ -1,37 +1,33 @@
 package com.zebrunner.carina.demo.gui.pages.desktop.sauce;
 
-import com.zebrunner.carina.demo.gui.pages.desktop.SauceBase;
+import com.zebrunner.carina.demo.gui.pages.desktop.sauce.Enums.SortValue;
 import com.zebrunner.carina.demo.gui.pages.desktop.sauce.entities.Item;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
-import com.zebrunner.carina.webdriver.gui.AbstractPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.FindBys;
 
+import java.time.Duration;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class SauceCart extends SauceBase {
+public class SauceCart extends SauceCartBase {
 
-    @FindBy(css = ".cart_item")
-    private List<ExtendedWebElement> cart;
+    @FindBy(css = ".select_container")
+    private ExtendedWebElement sortingSelect;
 
     public SauceCart(WebDriver driver){
         super(driver);
     }
 
-    public boolean removeItemFromCart(Item item){
+    public void removeItemFromCart(Item item){
         WebElement selectedItem = cart.stream()
                 .filter(e -> e.findElement(By.cssSelector(".inventory_item_name")).getText().equals(item.getName()))
                 .findFirst().orElse(null);
         if (selectedItem != null){
             selectedItem.findElement(By.cssSelector("#remove-" + item.getName().toLowerCase().replace(" ", "-"))).click();
-            return true;
         }
-        else
-            return false;
     }
 
     public List<Item> getItemsOnCart(){
@@ -43,8 +39,12 @@ public class SauceCart extends SauceBase {
                 .collect(Collectors.toList());
     }
 
-    protected float parsePrice(String priceText) {
-        String numericValue = priceText.replaceAll("[^0-9,]", "");
-        return Float.parseFloat(numericValue);
+    public void checkOut(){
+        getDriver().findElement(By.xpath("//*[@id='checkout']")).click();
+    }
+
+    public void sort(SortValue sortValue){
+        sortingSelect.click();
+        sortingSelect.findElement(By.cssSelector("[value='"+sortValue.getName()+"']")).click();
     }
 }

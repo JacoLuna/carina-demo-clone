@@ -30,14 +30,14 @@ public class SauceCart extends SauceCartBase {
         }
     }
 
-    public List<Item> getItemsOnCart(){
-        return cart.stream()
-                .map(e -> new Item(
-                        e.findElement(By.cssSelector(".inventory_item_name")).getText(),
-                        parsePrice(e.findElement(By.cssSelector(".item_pricebar>div.inventory_item_price")).getText())
-                ))
-                .collect(Collectors.toList());
-    }
+//    public List<Item> getItemsOnCart(){
+//        return cart.stream()
+//                .map(e -> new Item(
+//                        e.findElement(By.cssSelector(".inventory_item_name")).getText(),
+//                        parsePrice(e.findElement(By.cssSelector(".item_pricebar>div.inventory_item_price")).getText())
+//                ))
+//                .collect(Collectors.toList());
+//    }
 
     public void checkOut(){
         getDriver().findElement(By.xpath("//*[@id='checkout']")).click();

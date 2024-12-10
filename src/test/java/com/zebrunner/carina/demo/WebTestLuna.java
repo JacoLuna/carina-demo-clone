@@ -19,7 +19,6 @@ import org.testng.asserts.SoftAssert;
 
 import java.lang.invoke.MethodHandles;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 
 /**

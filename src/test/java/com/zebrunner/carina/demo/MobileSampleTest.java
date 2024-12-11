@@ -15,7 +15,13 @@
  *******************************************************************************/
 package com.zebrunner.carina.demo;
 
+import com.zebrunner.carina.demo.mobile.gui.pages.android.apptoide.ApptoideBase;
+import com.zebrunner.carina.demo.mobile.gui.pages.android.apptoide.ApptoidePresentation;
+import com.zebrunner.carina.demo.mobile.gui.pages.android.apptoide.enums.TabValue;
+import com.zebrunner.carina.demo.mobile.gui.pages.android.apptoide.tabs.ApptoideHome;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -31,6 +37,8 @@ import com.zebrunner.carina.demo.utils.MobileContextUtils.View;
 import com.zebrunner.agent.core.annotation.TestLabel;
 import com.zebrunner.carina.core.registrar.ownership.MethodOwner;
 import com.zebrunner.carina.utils.mobile.IMobileUtils;
+
+import java.util.List;
 
 public class MobileSampleTest implements IAbstractTest, IMobileUtils {
 
@@ -100,4 +108,33 @@ public class MobileSampleTest implements IAbstractTest, IMobileUtils {
         Assert.assertTrue(uiElements.isOthersRadioButtonSelected(), "Others radio button was not selected!");
     }
 
+    @Test()
+    @MethodOwner(owner = "jaco")
+    @TestLabel(name = "feature", value = {"mobile", "regression"})
+    public void tabsTest() {
+        initPage(getDriver(), WelcomePageBase.class);
+        ApptoidePresentation apptoidePresentation = new ApptoidePresentation(getDriver());
+        ApptoideBase apptoideBase = apptoidePresentation.clickSkipBtn();
+
+        for (TabValue value : TabValue.values()) {
+            Assert.assertTrue(apptoideBase.selectPage(value).isPageOpened(), value.getValue() + " isn't open");
+        }
+    }
+
+    @Test()
+    @MethodOwner(owner = "jaco")
+    @TestLabel(name = "feature", value = {"mobile", "regression"})
+    public void searchTest() {
+        initPage(getDriver(), WelcomePageBase.class);
+        ApptoidePresentation apptoidePresentation = new ApptoidePresentation(getDriver());
+        ApptoideBase apptoideBase = apptoidePresentation.clickSkipBtn();
+        String searchValue = "Pixel Dungeon";
+
+        WebElement app = apptoideBase.search(searchValue)
+                        .stream()
+                        .filter(result -> result.getAttribute("text").equals(searchValue))
+                        .findFirst().orElse(null);
+
+        Assert.assertNotEquals(app, null, "search value doesn't exist");
+    }
 }
